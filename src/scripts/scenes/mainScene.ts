@@ -10,7 +10,7 @@ export default class MainScene extends Phaser.Scene {
 
   create() {
     this.add.text(800, 600, 'hello', textStyles.defaultText).setOrigin(.5);
-    this.add.sprite(800, 800, PRELOADED_KEYS.ORANGEBTN.key);
+    this.matter.add.sprite(800, 800, PRELOADED_KEYS.ORANGEBTN.key);
   }
 
   update() {

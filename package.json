@@ -7,7 +7,7 @@
     "build": "webpack --config webpack/webpack.prod.js",
     "preload": "tsc ./src/utils/preload.ts && node ./src/utils/preload.js",
     "serve": "cd dist && python -m SimpleHTTPServer 9000",
-    "buildServe":"npm run build && npm run serve"
+    "buildServe": "npm run build && npm run serve"
   },
   "engines": {
     "node": ">=8.0.0"

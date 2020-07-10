@@ -6,7 +6,7 @@ const DEFAULT_WIDTH = 1600
 const DEFAULT_HEIGHT = 1200
 
 const config: Phaser.Types.Core.GameConfig = {
-  type: Phaser.CANVAS,
+  type: Phaser.AUTO,
   backgroundColor: '#ffffff',
   scale: {
     parent: 'phaser-game',
@@ -17,8 +17,8 @@ const config: Phaser.Types.Core.GameConfig = {
   },
   scene: [PreloadScene, MainScene],
   physics: {
-    default: 'arcade',
-    arcade: {
+    default: 'matter',
+    matter: {
       debug: true,
     }
   }
