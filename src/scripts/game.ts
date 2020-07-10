@@ -2,8 +2,8 @@ import 'phaser'
 import MainScene from './scenes/mainScene'
 import PreloadScene from './scenes/preloadScene'
 
-const DEFAULT_WIDTH = 1600
-const DEFAULT_HEIGHT = 1200
+export const DEFAULT_WIDTH = 1600
+export const DEFAULT_HEIGHT = 1200
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -14,6 +14,9 @@ const config: Phaser.Types.Core.GameConfig = {
     autoCenter: Phaser.Scale.CENTER_BOTH,
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT
+  },
+  render:{
+    pixelArt:true,
   },
   scene: [PreloadScene, MainScene],
   physics: {
