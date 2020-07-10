@@ -1,0 +1,33 @@
+{
+  "name": "phaser-project-template",
+  "description": "Phaser 3 starter template with TypeScript and webpack.",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack/webpack.dev.js",
+    "build": "webpack --config webpack/webpack.prod.js",
+    "preload": "tsc ./src/utils/preload.ts && node ./src/utils/preload.js",
+    "serve": "cd dist && python -m SimpleHTTPServer 9000",
+    "buildServe":"npm run build && npm run serve"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "clean-webpack-plugin": "^1.0.1",
+    "copy-webpack-plugin": "^5.1.1",
+    "html-webpack-plugin": "^3.2.0",
+    "ts-loader": "^5.4.5",
+    "typescript": "^3.7.4",
+    "webpack": "^4.41.5",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1",
+    "webpack-merge": "^4.2.2",
+    "webpack-obfuscator": "^0.18.8",
+    "workbox-webpack-plugin": "^4.3.1"
+  },
+  "dependencies": {
+    "cm-phaser-library": "0.0.5",
+    "phaser": "^3.21.0"
+  }
+}
