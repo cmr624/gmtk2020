@@ -11,16 +11,65 @@ export default class MainScene extends Phaser.Scene {
 
   player : PlayerController;
 
-  platform : Phaser.Physics.Matter.Image;
+  platformGroup : PlatformGroup;
+  platformCategory : number;
+  // this.platform = new InfiniteMatterPlatform(this, this.matter.world, 400, 1000, PRELOADED_KEYS.SQUARE.key);
   create() {
     this.keys = new StandardKeyboardInput(this);
-    this.matter.world.setBounds(0, 0, DEFAULT_WIDTH, DEFAULT_HEIGHT);
     this.player = new PlayerController(this, this.matter.world, 400, 0, PRELOADED_KEYS.POINTYPLAYER.key);
 
+    let playerCategory = this.matter.world.nextCategory();
+    this.player.setCollisionCategory(playerCategory);
 
-    this.platform = this.matter.add.image(1200, 1100, PRELOADED_KEYS.SQUARE.key);
-    this.platform.setScale(2, .5);
-    this.platform.setIgnoreGravity(true);
+    this.platformGroup = new PlatformGroup(this);
+    this.platformCategory = this.matter.world.nextCategory();
+    
+    this.spawnPlatform();
+
+    this.time.addEvent({
+      delay:2000,
+      callback:this.spawnPlatform,
+      callbackScope:this,
+      repeat:-1,
+    })
+
+    this.player.setCollidesWith(this.platformCategory);
+
+    this.matter.world.on('collisionstart', (event : Phaser.Physics.Matter.Events.CollisionStartEvent) => {
+      console.log('collision detected');
+      let player : PlayerController = event.pairs[0].bodyA.gameObject;
+      player.resetJumps();
+    });
+  }
+
+  spawnPlatform(){
+
+    let plat = new InfiniteMatterPlatform(this, this.matter.world, 1600, 1000, PRELOADED_KEYS.SQUARE.key);
+    plat.setCollisionCategory(this.platformCategory);
+    this.platformGroup.add(plat);
+  }
+
+  update(){
+    this.player.applyMovement();
+    this.platformGroup.getChildren().forEach((e : any) => {
+      e.x -= 5;
+    });
   }
 }
 
+
+export class PlatformGroup extends Phaser.GameObjects.Group {
+  constructor(public scene : MainScene){
+    super(scene);
+
+  }
+}
+
+export class InfiniteMatterPlatform extends Phaser.Physics.Matter.Image {
+  constructor(public scene : MainScene, public world : Phaser.Physics.Matter.World, x : number, y : number, key : string){
+    super(world, x, y, key);
+    this.scene.add.existing(this);
+    this.setScale(4, .5);
+    this.setStatic(true);
+  }
+}
