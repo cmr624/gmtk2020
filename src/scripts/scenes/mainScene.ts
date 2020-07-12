@@ -7,7 +7,6 @@ export default class MainScene extends Phaser.Scene {
   constructor() {
     super({ key: 'MainScene' })
   }
-  keys : StandardKeyboardInput;
 
   player : PlayerController;
 
@@ -15,7 +14,6 @@ export default class MainScene extends Phaser.Scene {
   // this.platform = new InfiniteMatterPlatform(this, this.matter.world, 400, 1000, PRELOADED_KEYS.SQUARE.key);
   create() {
     this.cameras.main.setBackgroundColor(0x98c1d9);
-    this.keys = new StandardKeyboardInput(this);
     this.player = new PlayerController(this, this.matter.world, 800, 0, PRELOADED_KEYS.JUMP.key);
     this.platformSpawner = new InfinitePlatformSpawner(this, this.matter.world);
     let playerCategory = this.matter.world.nextCategory();

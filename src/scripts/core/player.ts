@@ -1,4 +1,5 @@
-import MainScene from "../scenes/mainScene";
+import { GamePhase } from "../scenes/phase";
+import { GameControlPhases } from "./const";
 
 export interface PlayerControls {
     space : Phaser.Input.Keyboard.Key;
@@ -24,7 +25,7 @@ export interface PlayerControls {
 
     private jumpSpeed = -10;
     private movementForce = .009;
-    constructor(public scene : MainScene, public world : Phaser.Physics.Matter.World, x : number, y : number, key : string){
+    constructor(public scene : GamePhase, public world : Phaser.Physics.Matter.World, x : number, y : number, key : string, public myPhase : GameControlPhases){
       super(world, x, y, key);
       this.scene.add.existing(this);
       this.setFixedRotation();
@@ -33,16 +34,20 @@ export interface PlayerControls {
     }
   
     setupControls(){
-      this.space = this.scene.input.keyboard.addKey("SPACE", true, false);
-      this.space.on('down', () => this.jump());
-  
-      this.up = this.scene.input.keyboard.addKey("W");
-  
-      this.left = this.scene.input.keyboard.addKey("A");
-      
-      this.down = this.scene.input.keyboard.addKey("S");
-      
-      this.right = this.scene.input.keyboard.addKey("D");
+      if (this.myPhase === GameControlPhases.JUMP) {
+        this.space = this.scene.input.keyboard.addKey("SPACE", true, false);
+        this.space.on('down', () => this.jump());
+      }
+      else if (this.myPhase === GameControlPhases.UPDOWN){
+        this.up = this.scene.input.keyboard.addKey("W");
+        this.down = this.scene.input.keyboard.addKey("S");
+      } 
+      else if (this.myPhase === GameControlPhases.WASD){
+        this.up = this.scene.input.keyboard.addKey("W");
+        this.down = this.scene.input.keyboard.addKey("S");
+        this.left = this.scene.input.keyboard.addKey("A");
+        this.right = this.scene.input.keyboard.addKey("D");
+      }
     }
     
     public applyMovement() : void{
