@@ -29,7 +29,7 @@ export interface PlayerControls {
       this.scene.add.existing(this);
       this.setFixedRotation();
       this.setupControls();
-      this.setIgnoreGravity(true);
+    //   this.setIgnoreGravity(true);
     }
   
     setupControls(){
