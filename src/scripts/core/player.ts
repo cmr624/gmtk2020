@@ -42,6 +42,7 @@ export interface PlayerControls {
         this.space.on('down', () => this.jump());
       }
       else if (this.myPhase === GameControlPhases.UPDOWN){
+        this.setIgnoreGravity(true);
         this.up = this.scene.input.keyboard.addKey("W");
         this.down = this.scene.input.keyboard.addKey("S");
       } 
@@ -53,7 +54,21 @@ export interface PlayerControls {
       }
     }
     
-    public applyMovement() : void{
+    public applyUpDownMovement() : void {
+        if (this.down.isDown) {
+            this.setVelocityY(-this.jumpSpeed);
+            // this.applyForce(new Phaser.Math.Vector2(0,this.movementForce));
+        }
+        else if (this.up.isDown) {
+            this.setVelocityY(this.jumpSpeed);
+            // this.applyForce(new Phaser.Math.Vector2(0, -this.movementForce));
+        }
+        else {
+            this.setVelocity(0);
+        }
+    }
+
+    public applyWasdMovement() : void{
         let v = diagonalVelocity(this.movementForce);
         // TOP RIGHT
         if (this.right.isDown && this.up.isDown)
