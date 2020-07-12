@@ -1,6 +1,6 @@
 import 'phaser'
-import MainScene from './scenes/mainScene'
 import PreloadScene from './scenes/preloadScene'
+import { JumpPhase } from './scenes/phase'
 
 export const DEFAULT_WIDTH = 1600
 export const DEFAULT_HEIGHT = 1200
@@ -15,11 +15,11 @@ const config: Phaser.Types.Core.GameConfig = {
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT
   },
-  scene: [PreloadScene, MainScene],
+  scene: [PreloadScene, JumpPhase],
   physics: {
     default: 'matter',
     matter: {
-      debug: true,
+      debug: false,
     }
   }
 }

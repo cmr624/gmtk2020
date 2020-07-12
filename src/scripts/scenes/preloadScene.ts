@@ -11,6 +11,6 @@ export default class PreloadScene extends Phaser.Scene {
   create() {
 
     this.add.image(0, 0, PRELOADED_KEYS.PLAYSCREENBG.key).setOrigin(0);
-    setTimeout(() => this.scene.start('MainScene'), 2000);
+    setTimeout(() => this.scene.start('jump'), 2000);
   }
 }
