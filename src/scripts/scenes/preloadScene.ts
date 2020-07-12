@@ -9,6 +9,8 @@ export default class PreloadScene extends Phaser.Scene {
     })
   }
   create() {
-    this.scene.start('MainScene');
+
+    this.add.image(0, 0, PRELOADED_KEYS.PLAYSCREENBG.key).setOrigin(0);
+    setTimeout(() => this.scene.start('MainScene'), 2000);
   }
 }

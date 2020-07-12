@@ -15,9 +15,6 @@ const config: Phaser.Types.Core.GameConfig = {
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT
   },
-  render:{
-    pixelArt:true,
-  },
   scene: [PreloadScene, MainScene],
   physics: {
     default: 'matter',

@@ -14,8 +14,9 @@ export default class MainScene extends Phaser.Scene {
   platformSpawner : InfinitePlatformSpawner;
   // this.platform = new InfiniteMatterPlatform(this, this.matter.world, 400, 1000, PRELOADED_KEYS.SQUARE.key);
   create() {
+    this.cameras.main.setBackgroundColor(0x98c1d9);
     this.keys = new StandardKeyboardInput(this);
-    this.player = new PlayerController(this, this.matter.world, 800, 0, PRELOADED_KEYS.POINTYPLAYER.key);
+    this.player = new PlayerController(this, this.matter.world, 800, 0, PRELOADED_KEYS.JUMP.key);
     this.platformSpawner = new InfinitePlatformSpawner(this, this.matter.world);
     let playerCategory = this.matter.world.nextCategory();
     this.player.setCollisionCategory(playerCategory);
@@ -63,7 +64,7 @@ export class InfinitePlatformSpawner extends Phaser.GameObjects.GameObject{
 
 
   spawnPlatform(){
-    let plat = new InfiniteMatterPlatform(this.scene, this.world, Phaser.Math.Between(1600, 2300), Phaser.Math.Between(800, 1200), PRELOADED_KEYS.SQUARE.key);
+    let plat = new InfiniteMatterPlatform(this.scene, this.world, Phaser.Math.Between(1600, 2300), Phaser.Math.Between(800, 1200));
     plat.setCollisionCategory(this.platformCategory);
     if (this.platformGroup.getChildren().length > this.groupLimit) {
       let deleteMe = this.platformGroup.getChildren()[0];
@@ -89,10 +90,11 @@ export class PlatformGroup extends Phaser.GameObjects.Group {
 }
 
 export class InfiniteMatterPlatform extends Phaser.Physics.Matter.Image {
-  constructor(public scene : MainScene, public world : Phaser.Physics.Matter.World, x : number, y : number, key : string){
-    super(world, x, y, key);
+  constructor(public scene : MainScene, public world : Phaser.Physics.Matter.World, x : number, y : number ){
+    super(world, x, y, PRELOADED_KEYS.PLATFORM.key);
     this.scene.add.existing(this);
-    this.setScale(Phaser.Math.Between(2, 5), .1);
     this.setStatic(true);
   }
 }
+
+
