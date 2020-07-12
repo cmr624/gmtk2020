@@ -8,13 +8,17 @@ export abstract class Spawner extends Phaser.GameObjects.GameObject {
     private obstacleGroup : ObstacleGroup;
     private groupLimit = 5;
     private movementLeftSpeed = 15;
-
+    public timerEvent : Phaser.Time.TimerEvent;
     constructor(public scene : GamePhase, public world : Phaser.Physics.Matter.World, gameObjectKey : string){
         super(scene,gameObjectKey); 
         this.obstacleGroup = new ObstacleGroup(this.scene);
         this.obstacleCategory = this.world.nextCategory();
     }
 
+    destroyGroup(){
+      this.timerEvent.destroy();
+      this.obstacleGroup.destroy(true);
+    }
 
     abstract createObstacle() : Obstacle;
    
@@ -29,15 +33,16 @@ export abstract class Spawner extends Phaser.GameObjects.GameObject {
     }
 
     update(){
-        this.obstacleGroup.getChildren().forEach((e : any) => {
+     this.obstacleGroup.getChildren().forEach((e : any) => {
             e.x -= this.movementLeftSpeed;
-        })
-    }
+      });
+   }
+        
 }
 export class InfinitePlatformSpawner extends Spawner{
     constructor(public scene : GamePhase, public world : Phaser.Physics.Matter.World){
       super(scene, world, 'infinitePlatformSpawner');
-      this.scene.time.addEvent({
+      this.timerEvent = this.scene.time.addEvent({
         delay:1500,
         callback:this.spawn,
         callbackScope:this,
@@ -46,7 +51,7 @@ export class InfinitePlatformSpawner extends Spawner{
       this.spawn();
     }
     createObstacle(): Obstacle {
-        return new InfiniteMatterPlatform(this.scene, this.world, Phaser.Math.Between(1600, 2300), Phaser.Math.Between(800, 1200));
+        return new InfiniteMatterPlatform(this.scene, this.world, Phaser.Math.Between(1600, 2300), Phaser.Math.Between(800, 1100));
     }
   }
   

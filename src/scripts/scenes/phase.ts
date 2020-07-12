@@ -2,19 +2,41 @@ import { PlayerController } from "../core/player";
 import { PRELOADED_KEYS } from "../../utils/dist/preloadedKeyObject";
 import { GameControlPhases } from "../core/const";
 import { Spawner, InfinitePlatformSpawner } from "../core/spawner";
-
+import * as cm from 'cm-phaser-library';
 export abstract class GamePhase extends Phaser.Scene {
     
+    thisPhase : GameControlPhases;
     numberOfSeconds : number;
     nextPhaseString : string;
     playerController : PlayerController;
     spawner : Spawner;
-    constructor(key : string){
+    dead : boolean = false;
+    constructor(public key : string){
         super(key);
     }
     create(){
+        this.matter.world.resetCollisionIDs();
         this.cameras.main.setBackgroundColor(0x98c1d9);
     }
+
+    death(){
+        this.dead = true;
+        this.spawner.timerEvent.destroy();
+        this.add.image(800, 1000, PRELOADED_KEYS.RESTARTTEXT.key);
+        let img = this.add.image(800, 500, PRELOADED_KEYS.HEARTBREAK.key);
+        img.setInteractive();
+        img.on('pointerdown', () => {
+            this.dead = false;
+            this.scene.restart();
+        });
+        this.add.tween({
+            targets:[img],
+            scale:1.2,
+            yoyo:true,
+            duration:800,
+            loop:-1,
+        });
+    } 
 
     update(){
         this.spawner.update();
@@ -47,7 +69,11 @@ export class JumpPhase extends GamePhase {
         });
     }
 
-    // update(){
-    //     // super.update();
-    // }
+    update(){
+        super.update();
+        if ((this.playerController.y > 1300 || this.playerController.x < 0) && !this.dead) {
+            this.death();
+        }
+    }
+   
 }

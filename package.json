@@ -28,6 +28,6 @@
   },
   "dependencies": {
     "cm-phaser-library": "0.0.5",
-    "phaser": "^3.21.0"
+    "phaser": "^3.23.0"
   }
 }

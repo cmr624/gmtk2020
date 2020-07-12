@@ -23,19 +23,22 @@ export interface PlayerControls {
     space : Phaser.Input.Keyboard.Key;
   
 
-    private jumpSpeed = -10;
+    private jumpSpeed = -12;
     private movementForce = .009;
     constructor(public scene : GamePhase, public world : Phaser.Physics.Matter.World, x : number, y : number, key : string, public myPhase : GameControlPhases){
       super(world, x, y, key);
       this.scene.add.existing(this);
       this.setFixedRotation();
       this.setupControls();
+      console.log('creating player controller');
     //   this.setIgnoreGravity(true);
     }
   
     setupControls(){
+
       if (this.myPhase === GameControlPhases.JUMP) {
         this.space = this.scene.input.keyboard.addKey("SPACE", true, false);
+        this.space.removeAllListeners();
         this.space.on('down', () => this.jump());
       }
       else if (this.myPhase === GameControlPhases.UPDOWN){
