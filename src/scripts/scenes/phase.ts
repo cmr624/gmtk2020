@@ -2,7 +2,6 @@ import { PlayerController } from "../core/player";
 import { PRELOADED_KEYS } from "../../utils/dist/preloadedKeyObject";
 import { GameControlPhases } from "../core/const";
 import { Spawner, InfinitePlatformSpawner, PipeSpawner, AsteroidSpawner } from "../core/spawner";
-import * as cm from 'cm-phaser-library';
 export abstract class GamePhase extends Phaser.Scene {
     
     thisPhase : GameControlPhases;
@@ -64,7 +63,11 @@ export class JumpPhase extends GamePhase {
     constructor(){
         super('jump');
         this.numberOfSeconds = 20;
-        this.nextPhaseString = "upDown";
+        this.nextPhaseString = "instructionsUpDown";
+    }
+
+    preload(){
+        
     }
 
     create(){
@@ -78,7 +81,6 @@ export class JumpPhase extends GamePhase {
             let player : PlayerController = event.pairs[0].bodyA.gameObject;
             player.resetJumps();
         });
-
         this.spawner.on('levelComplete', () => this.onLevelComplete());
     }
 
@@ -95,7 +97,7 @@ export class UpDownPhase extends GamePhase {
     constructor(){
         super('upDown');
         this.numberOfSeconds = 20;
-        this.nextPhaseString = "wasd";
+        this.nextPhaseString = "instructionsWasd";
     }
 
     create(){
@@ -120,7 +122,7 @@ export class WasdPhase extends GamePhase{
     constructor(){
         super('wasd');
         this.numberOfSeconds = 20;
-        this.nextPhaseString = "PreloadScene";
+        this.nextPhaseString = "payoff";
     }
 
     create(){

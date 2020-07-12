@@ -44,15 +44,9 @@ export interface PlayerControls {
       }
       else if (this.myPhase === GameControlPhases.UPDOWN){
         this.setIgnoreGravity(true);
-        // this.up = this.scene.input.keyboard.addKey("W");
-        // this.down = this.scene.input.keyboard.addKey("S");
       } 
       else if (this.myPhase === GameControlPhases.WASD){
         this.setIgnoreGravity(true);
-        // this.up = this.scene.input.keyboard.addKey("W");
-        // this.down = this.scene.input.keyboard.addKey("S");
-        // this.left = this.scene.input.keyboard.addKey("A");
-        // this.right = this.scene.input.keyboard.addKey("D");
       }
     }
     
