@@ -75,7 +75,23 @@ export class PipeSpawner extends Spawner{
   createObstacle(): Obstacle {
     return new Pipe(this.scene, this.world, Phaser.Math.Between(1600, 2300), Phaser.Math.Between(0, 1200));
   }
+}
 
+export class AsteroidSpawner extends Spawner {
+  constructor(public scene : GamePhase, public world : Phaser.Physics.Matter.World, public numberOfSeconds : number){
+    super(scene, world, 'asteroidSpawner');
+    this.timerEvent = this.scene.time.addEvent({
+      delay : 800,
+      callback : this.spawn,
+      callbackScope : this,
+      repeat : Math.ceil((this.numberOfSeconds * 1000) / 800)
+    });
+    this.spawn();
+  }
+
+  createObstacle() : Obstacle {
+    return new Asteroid(this.scene, this.world, Phaser.Math.Between(1600, 2200), Phaser.Math.Between(100, 1100));
+  }
 }
   
 export class ObstacleGroup extends Phaser.GameObjects.Group {

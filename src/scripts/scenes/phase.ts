@@ -1,7 +1,7 @@
 import { PlayerController } from "../core/player";
 import { PRELOADED_KEYS } from "../../utils/dist/preloadedKeyObject";
 import { GameControlPhases } from "../core/const";
-import { Spawner, InfinitePlatformSpawner, PipeSpawner } from "../core/spawner";
+import { Spawner, InfinitePlatformSpawner, PipeSpawner, AsteroidSpawner } from "../core/spawner";
 import * as cm from 'cm-phaser-library';
 export abstract class GamePhase extends Phaser.Scene {
     
@@ -63,7 +63,7 @@ export abstract class GamePhase extends Phaser.Scene {
 export class JumpPhase extends GamePhase {
     constructor(){
         super('jump');
-        this.numberOfSeconds = 15;
+        this.numberOfSeconds = 20;
         this.nextPhaseString = "upDown";
     }
 
@@ -112,8 +112,6 @@ export class UpDownPhase extends GamePhase {
         this.playerController.applyUpDownMovement();
         if ((this.playerController.y > 1300 || this.playerController.x < 0 || this.playerController.y < -200) && !this.dead && !this.levelComplete) {
             this.death();
-            this.playerController.up.removeAllListeners();
-            this.playerController.down.removeAllListeners();
         } 
     }
 }
@@ -121,13 +119,24 @@ export class UpDownPhase extends GamePhase {
 export class WasdPhase extends GamePhase{
     constructor(){
         super('wasd');
-        this.numberOfSeconds = 30;
-        this.nextPhaseString = "final";
+        this.numberOfSeconds = 20;
+        this.nextPhaseString = "PreloadScene";
     }
 
     create(){
         super.create();
         this.playerController = new PlayerController(this, this.matter.world, 600, 800, PRELOADED_KEYS.FULL.key, GameControlPhases.WASD);
-        
+        this.spawner = new AsteroidSpawner(this, this.matter.world, this.numberOfSeconds);
+        let playerCategory = this.matter.world.nextCategory();
+        this.playerController.setCollisionCategory(playerCategory);
+        this.spawner.on('levelComplete', () => this.onLevelComplete());
+    }
+
+    update(){
+        super.update();
+        this.playerController.applyWasdMovement();
+        if ((this.playerController.y > 1300 || this.playerController.x < 0 || this.playerController.y < -200) && !this.dead && !this.levelComplete) {
+            this.death();
+        } 
     }
 }
